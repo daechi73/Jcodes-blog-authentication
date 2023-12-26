@@ -20,11 +20,12 @@ exports.user_detail = asyncHandler(async (req, res, next) => {
   res.send(Object.values(user));
 });
 
-exports.user_sign_up = [
+exports.user_sign_in = [
   asyncHandler(async (req, res, next) => {
     passport.authenticate("local", (err, user, options) => {
       if (!user) {
         res.json("Log in failed, try again");
+        //res.json(options.message);
       }
       req.login(user, (err) => {
         if (err) return next(err);
