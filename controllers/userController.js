@@ -29,7 +29,7 @@ exports.user_sign_in = [
       }
       req.login(user, (err) => {
         if (err) return next(err);
-        return res.json({ status: "success" });
+        return res.json({ status: "success", user: user });
       });
     })(req, res, next);
   }),
