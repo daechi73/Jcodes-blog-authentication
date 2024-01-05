@@ -40,6 +40,6 @@ exports.user_sign_out = asyncHandler(async (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.json({ status: "success" });
+    res.json({ status: "success", user: req.user });
   });
 });
