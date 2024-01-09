@@ -26,7 +26,7 @@ exports.user_sign_in = [
   asyncHandler(async (req, res, next) => {
     passport.authenticate("local", (err, user, options) => {
       if (!user) {
-        res.json("Log in failed, try again");
+        return res.json("Log in failed, try again");
         //res.json(options.message);
       }
       req.login(user, (err) => {
@@ -46,7 +46,7 @@ exports.user_sign_out = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.sign_up_post = [
+exports.user_sign_up = [
   body("name")
     .trim()
     .exists()
@@ -69,9 +69,7 @@ exports.sign_up_post = [
     .trim()
     .exists()
     .withMessage("You must enter a password")
-    .isStrongPassword({
-      minLength: 8,
-    })
+    .isLength({ min: 8 })
     .withMessage("Password must be atleast 8 charaters."),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
