@@ -7,7 +7,7 @@ exports.comment_list = asyncHandler(async (req, res, next) => {
   const comment = await Comment.find().populate("user").exec();
   if (comment.length === 0)
     return res.json({ status: "failure", msg: "no comments found" });
-  return res.json(comment);
+  return res.json({ status: "success", comment: comment });
 });
 exports.comment_post = [
   body("comment")
