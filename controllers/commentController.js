@@ -4,7 +4,7 @@ const Comment = require("../models/comment");
 const user = require("../models/user");
 
 exports.comment_list = asyncHandler(async (req, res, next) => {
-  const comment = await Comment.find().exec();
+  const comment = await Comment.find().populate("user").exec();
   if (comment.length === 0) return res.json("No Comments Found");
   return res.json(comment);
 });
