@@ -9,10 +9,10 @@ exports.comment_list = asyncHandler(async (req, res, next) => {
   return res.json(comment);
 });
 exports.comment_post = [
-  // body("comment")
-  //   .trim()
-  //   .isLength({ min: 4 })
-  //   .withMessage("You must type atleast 4 letters"),
+  body("comment")
+    .trim()
+    .isLength({ min: 4 })
+    .withMessage("You must type atleast 4 letters"),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     const comment = new Comment({
