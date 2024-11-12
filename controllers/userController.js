@@ -5,13 +5,13 @@ const HashedPassword = require("../public/javascripts/HashPassword.js");
 const { body, validationResult } = require("express-validator");
 
 exports.users_get = asyncHandler(async (req, res, next) => {
-  const users = await User.find();
+  const users = await User.find().select("-password");
   if (users) res.send(Object.values(users));
   else res.send("No Users Found");
 });
 
 exports.user_detail = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.params.id).exec();
+  const user = await User.findById(req.params.id).exec().select("-password");
 
   if (user === null) {
     const err = new Error("User not found");
