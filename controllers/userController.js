@@ -31,7 +31,9 @@ exports.user_sign_in = [
       }
       req.login(user, (err) => {
         if (err) return next(err);
-        return res.json({ status: "success", user: user });
+        const updatedUser = user.toObject();
+        delete updatedUser.password;
+        return res.json({ status: "success", user: updatedUser });
       });
     })(req, res, next);
   }),
@@ -87,7 +89,9 @@ exports.user_sign_up = [
       return;
     } else {
       await user.save();
-      res.json({ status: "success", user: user });
+      const userWithoutPassword = user.toObject();
+      delete userWithoutPassword.password;
+      res.json({ status: "success", user: userWithoutPassword });
     }
   }),
 ];
