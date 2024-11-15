@@ -55,6 +55,18 @@ exports.user_sign_in = [
   }),
 ];
 
+exports.user_resume_signIn = asyncHandler((req, res) => {
+  if (req.user) {
+    const noPasswordUser = req.user.toObject();
+    delete noPasswordUser.password;
+    return res.status(200).json({
+      status: "success",
+      user: req.user,
+      msg: "Resumed previous log in",
+    });
+  }
+});
+
 exports.get_signedInUSer = asyncHandler(async (req, res) => {
   return res.status(200).json({
     status: "success",
