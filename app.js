@@ -96,7 +96,7 @@ app.use(
   session({
     secret: "cats",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false, //logs all previously logged on users even after logging out when set to true
     cookie: {
       httpOnly: true,
       secure: false, // Use true only in production with HTTPS,

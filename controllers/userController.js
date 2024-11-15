@@ -24,12 +24,15 @@ exports.user_detail = asyncHandler(async (req, res, next) => {
 exports.user_sign_in = [
   asyncHandler(async (req, res, next) => {
     try {
-      if (req.user)
+      if (req.user) {
+        const noPasswordUser = req.user.toObject();
+        delete noPasswordUser.password;
         return res.status(200).json({
           status: "success",
           user: req.user,
           msg: "Resumed previous log in",
         });
+      }
       passport.authenticate("local", (err, user, options) => {
         if (!user) {
           return res.json("Log in failed, try again");
@@ -51,6 +54,16 @@ exports.user_sign_in = [
     }
   }),
 ];
+
+exports.get_signedInUSer = asyncHandler(async (req, res) => {
+  return res.status(200).json({
+    status: "success",
+    currentUser: req.user,
+    users: req.sessionStore.sessions,
+    session: req.session,
+    msg: "Currently signed in users returned",
+  });
+});
 
 exports.user_sign_out = asyncHandler(async (req, res, next) => {
   req.logout((err) => {

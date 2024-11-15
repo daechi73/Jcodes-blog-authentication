@@ -8,6 +8,7 @@ router.get("/", userController.users_get);
 router.post("/sign-in", userController.user_sign_in);
 router.get("/sign-out", userController.user_sign_out);
 router.post("/sign-up", userController.user_sign_up);
+router.get("/signedInUsers", userController.get_signedInUSer);
 router.get("/check", (req, res) => {
   req.isAuthenticated()
     ? res.json("Login persist works")
