@@ -18,24 +18,37 @@ exports.user_detail = asyncHandler(async (req, res, next) => {
     err.status = 404;
     return next(err);
   }
-
   res.send(Object.values(user));
 });
 
 exports.user_sign_in = [
   asyncHandler(async (req, res, next) => {
-    passport.authenticate("local", (err, user, options) => {
-      if (!user) {
-        return res.json("Log in failed, try again");
-        //res.json(options.message);
-      }
-      req.login(user, (err) => {
-        if (err) return next(err);
-        const updatedUser = user.toObject();
-        delete updatedUser.password;
-        return res.json({ status: "success", user: updatedUser });
-      });
-    })(req, res, next);
+    try {
+      if (req.user)
+        return res.status(200).json({
+          status: "success",
+          user: req.user,
+          msg: "Resumed previous log in",
+        });
+      passport.authenticate("local", (err, user, options) => {
+        if (!user) {
+          return res.json("Log in failed, try again");
+          //res.json(options.message);
+        }
+        req.login(user, (err) => {
+          if (err) return next(err);
+          const updatedUser = user.toObject();
+          delete updatedUser.password;
+          return res.status(200).json({
+            status: "success",
+            user: updatedUser,
+            msg: "Signed in successfully",
+          });
+        });
+      })(req, res, next);
+    } catch (err) {
+      console.log(err);
+    }
   }),
 ];
 
@@ -44,7 +57,11 @@ exports.user_sign_out = asyncHandler(async (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.json({ status: "success", user: req.user });
+    res.json({
+      status: "success",
+      user: req.user,
+      msg: "Signed out successfully",
+    });
   });
 });
 
