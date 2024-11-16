@@ -112,9 +112,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/comments", commentsRouter);
+app.use("/api/", indexRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/comments", commentsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
