@@ -43,7 +43,7 @@ app.use(bodyParser.json());
 
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "https://jcodes.ca");
   // Request methods you wish to allow
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -93,14 +93,28 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+app.use(
+  session({
+    secret: "cats",
+    resave: false,
+    saveUninitialized: false, //logs all previously logged on users even after logging out when set to true
+    cookie: {
+      httpOnly: false,
+      secure: true, // Use true only in production with HTTPS,
+      // sameSite: "Lax", // or "None" if cross-origin
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    },
+  })
+);
+
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/", indexRouter);
-app.use("/api/users", usersRouter);
-app.use("/api/comments", commentsRouter);
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
+app.use("/comments", commentsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
