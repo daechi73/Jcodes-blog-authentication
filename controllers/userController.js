@@ -68,11 +68,14 @@ exports.user_resume_signIn = asyncHandler((req, res) => {
 });
 
 exports.get_signedInUSer = asyncHandler(async (req, res) => {
-  const noPasswordUser = req.user.toObject();
-  delete noPasswordUser.password;
+  let noPasswordUser = "No sign ins";
+  if (req.user) {
+    noPasswordUser = req.user.toObject();
+    delete noPasswordUser.password;
+  }
   return res.status(200).json({
     status: "success",
-    currentUser: req.noPasswordUser,
+    currentUser: noPasswordUser,
     users: req.sessionStore.sessions,
     session: req.session,
     msg: "Currently signed in users returned",
