@@ -3,7 +3,6 @@
 console.log("This SCript populates users and comments to the database");
 
 const userArgs = process.argv.slice(2);
-//mongodb+srv://${process.env.USER_NAME}:${process.env.PASS}@cluster0.o5wrez4.mongodb.net/jcodesBLog?retryWrites=true&w=majority
 
 const bcrypt = require("bcryptjs");
 const Comment = require("./models/comment");
